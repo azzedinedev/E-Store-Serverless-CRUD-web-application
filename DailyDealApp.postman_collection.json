@@ -1,0 +1,317 @@
+{
+	"info": {
+		"_postman_id": "9545f529-28eb-4049-9bd3-1b4629bbc811",
+		"name": "DailyDealApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Special Deals",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{api-id}}.execute-api.us-east-1.amazonaws.com/dev/SpecialDeals",
+					"protocol": "https",
+					"host": [
+						"{{api-id}}",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"SpecialDeals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Deal",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"name\": \"Acer extensa\",\r\n \"description\": \"Acer\",\r\n \"originalPrice\": \"420 $\"\r\n\r\n}"
+				},
+				"url": {
+					"raw": "https://ficmpgzsvc.execute-api.us-east-1.amazonaws.com/dev/deals",
+					"protocol": "https",
+					"host": [
+						"ficmpgzsvc",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"deals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Regular Deals",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{api-id}}.execute-api.us-east-1.amazonaws.com/dev/RegularDeals",
+					"protocol": "https",
+					"host": [
+						"{{api-id}}",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"RegularDeals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Deal",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Acer Travelmate\",\r\n    \"description\": \"Acer\",\r\n    \"originalPrice\": \"415\",\r\n    \"salePrice\": \"\",\r\n    \"dealType\": \"Regular Deal\"        \r\n}\r\n\r\n"
+				},
+				"url": {
+					"raw": "https://{{api-id}}.execute-api.us-east-1.amazonaws.com/dev/deals/17e87359-42c4-4bd6-a346-e86b5e3ca1e3",
+					"protocol": "https",
+					"host": [
+						"{{api-id}}",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"deals",
+						"17e87359-42c4-4bd6-a346-e86b5e3ca1e3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make a regular deal Special",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token-id}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"salePrice\": \"350 $\"\r\n   \r\n}"
+				},
+				"url": {
+					"raw": "https://ficmpgzsvc.execute-api.us-east-1.amazonaws.com/dev/deals/17e87359-42c4-4bd6-a346-e86b5e3ca1e3/special",
+					"protocol": "https",
+					"host": [
+						"ficmpgzsvc",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"deals",
+						"17e87359-42c4-4bd6-a346-e86b5e3ca1e3",
+						"special"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User's Deals",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token-id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{api-id}}.execute-api.us-east-1.amazonaws.com/dev/deals/",
+					"protocol": "https",
+					"host": [
+						"{{api-id}}",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"deals",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a deal",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token-id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{api-id}}.execute-api.us-east-1.amazonaws.com/dev/deals/49984651-b333-4862-a4ae-1aa63d9b6cf2",
+					"protocol": "https",
+					"host": [
+						"{{api-id}}",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"deals",
+						"49984651-b333-4862-a4ae-1aa63d9b6cf2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get deal by Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{api-id}}.execute-api.us-east-1.amazonaws.com/dev/deals/17e87359-42c4-4bd6-a346-e86b5e3ca1e3",
+					"protocol": "https",
+					"host": [
+						"{{api-id}}",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"deals",
+						"17e87359-42c4-4bd6-a346-e86b5e3ca1e3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getSignedUrl",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token-id}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{api-id}}.execute-api.us-east-1.amazonaws.com/dev/deals/17e87359-42c4-4bd6-a346-e86b5e3ca1e3/attachment",
+					"protocol": "https",
+					"host": [
+						"{{api-id}}",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"deals",
+						"17e87359-42c4-4bd6-a346-e86b5e3ca1e3",
+						"attachment"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api-id",
+			"value": "ficmpgzsvc"
+		},
+		{
+			"key": "token-id",
+			"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImgwOHZSWlYwWFZ3NDd4bGRVeTZCRSJ9.eyJpc3MiOiJodHRwczovL2Rldi14NW9yaW4zaS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDc2MjU5OTk2NjI5MTAzMTQxMDYiLCJhdWQiOiJZVWVvU2V4YWJ2TXREOGx3MWExaDNOMjI4WFdvZFQ5eSIsImlhdCI6MTYzNjAyMjY3MywiZXhwIjoxNjM2MzgyNjczLCJhdF9oYXNoIjoiOG9Hd0V5Ty1vY0pVVDlTbEpueEZrZyIsIm5vbmNlIjoidVhwanNobmhCenVrN3NGUTRDNk9CdkhxOFN-QVUtTVIifQ.An_BmcaabE6qBLD9HqsXMNCN-oKxiKOyt_gf25VDA5kcS22Lip7U-6fHlWvrBSaKzx4L4wMWMbGuOXKYCJGwQDCzwsdxUT_SW4ix2IefsvN_ZrAIjCbJeA1VElT8MBISs83vKoZ5DwWUlyvdEdUkHnDrpeCovfQ3Xo4Gn0ymXIBiMsnXYpHTw-ofSnZmqUL2e6GvkJL4hzNvvn40P1eW2WQwBIAqg1AGgYtpkjIGF5cUtxXfdbv4Dq3IffvP7oXSszcKMiXHpoEBiQJlH8yKs89qaIT-GVYIPEx4yoO3yPU-Wka80pvdGrZVERSa6Oqj0N2iF9YAilgSU5kbV5APkQ"
+		}
+	]
+}

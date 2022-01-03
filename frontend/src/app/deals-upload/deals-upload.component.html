@@ -1,0 +1,46 @@
+<section class="bg-light">
+    <div class="container py-5">
+
+        <div class="row">
+
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
+                <div class="tm-bg-primary-dark tm-block tm-block-products">
+
+                    <!-- forms start -->
+                    <div class="card mb-grid">
+                        <div class="card-header">
+                            <div class="card-header-title">upload image</div>
+                        </div>
+
+                        <div class="card-body">
+                            <form [formGroup]="uploadForm" (submit)="onUpload($event)">
+                                <div class="form-group">
+                                    <label class="form-label" for="ProductImage">Image of the product</label>
+                                    <div class="">
+                                        <div class="custom-file col-6">
+                                            <input type="file" name="image" class="custom-file-input col-4"
+                                            accept="image/*"  id="ProductImage" (change)="onFileChange($event)" >
+                                            <img *ngIf="previewDataUrl" [src]="previewDataUrl" style="width:50px; height: 50px;" />
+                                            <label class="custom-file-label" for="ProductImage" *ngIf="!previewDataUrl" >Choose image
+                                                file</label>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Upload</button>
+                                        <button type="button" class="btn btn-primary  col-2" routerLink="/deals-list">Cancel</button>
+
+
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                    <!-- forms ends -->
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

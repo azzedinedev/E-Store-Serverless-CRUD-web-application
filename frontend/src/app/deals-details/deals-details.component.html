@@ -1,0 +1,48 @@
+<!-- Start Featured Product -->
+<section class="bg-light">
+    <div class="container py-5">
+
+        <div class="row">
+
+            <svg style="display: none;">
+                <symbol id="arrow-right" viewBox="0 0 20 10">
+                    <path d="M14.84 0l-1.08 1.06 3.3 3.2H0v1.49h17.05l-3.3 3.2L14.84 10 20 5l-5.16-5z"></path>
+                </symbol>
+            </svg>
+
+            <div class="col-12 col-md-12 mb-12">
+                <div class="card h-100">
+                    <div class="card-body">
+                        
+                        <ul class="list-unstyled d-flex justify-content-between" *ngIf="!deal.salePrice">
+                            <li class="text-muted">{{deal.originalPrice}}  $</li>
+                        </ul>
+
+                        <ul class="list-unstyled d-flex justify-content-between" *ngIf="deal.salePrice">
+                            <li class="text-muted text-barr">{{deal.originalPrice}}  $</li>
+                            <li class="text-muted text-success">{{deal.salePrice}} $ </li>
+                        </ul>
+
+                        <h1 class="h2 text-decoration-none text-dark">{{deal.name}}</h1>
+                        <img src="{{deal.imageUrl}}" class="card-img-top" alt="...">
+                        <p class="card-text">
+                            {{deal.description}}
+                        </p>
+                        <a class="morebt col col-lg-3 float-right position-relative" (click) ="onBack()" type="button" >
+                            <span class="bttext">Back</span>
+                            <div class="bticon">
+                                <svg>
+                                    <use xlink:href="#arrow-right"></use>
+                                </svg>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+<!-- End Featured Product -->

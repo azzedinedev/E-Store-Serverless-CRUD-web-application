@@ -1,0 +1,53 @@
+###############################"Deployment log"###############################################
+
+Service Information
+service: eStore-serverless-App
+stage: dev
+region: us-east-1
+stack: eStore-serverless-App-dev
+resources: 100
+api keys:
+  None
+endpoints:
+  GET - https://ficmpgzsvc.execute-api.us-east-1.amazonaws.com/dev/deals
+  GET - https://ficmpgzsvc.execute-api.us-east-1.amazonaws.com/dev/RegularDeals
+  GET - https://ficmpgzsvc.execute-api.us-east-1.amazonaws.com/dev/SpecialDeals
+  POST - https://ficmpgzsvc.execute-api.us-east-1.amazonaws.com/dev/deals
+  GET - https://ficmpgzsvc.execute-api.us-east-1.amazonaws.com/dev/deals/{dealId}
+  PATCH - https://ficmpgzsvc.execute-api.us-east-1.amazonaws.com/dev/deals/{dealId}
+  DELETE - https://ficmpgzsvc.execute-api.us-east-1.amazonaws.com/dev/deals/{dealId}
+  PATCH - https://ficmpgzsvc.execute-api.us-east-1.amazonaws.com/dev/deals/{dealId}/special
+  POST - https://ficmpgzsvc.execute-api.us-east-1.amazonaws.com/dev/deals/{dealId}/attachment
+functions:
+  Auth: eStore-serverless-App-dev-Auth
+  GetAllDeals: eStore-serverless-App-dev-GetAllDeals
+  GetRegularDeals: eStore-serverless-App-dev-GetRegularDeals
+  GetSpecialDeals: eStore-serverless-App-dev-GetSpecialDeals
+  CreateDeal: eStore-serverless-App-dev-CreateDeal
+  GetDeal: eStore-serverless-App-dev-GetDeal
+  UpdateDeal: eStore-serverless-App-dev-UpdateDeal
+  DeleteDeal: eStore-serverless-App-dev-DeleteDeal
+  createSpecialDeal: eStore-serverless-App-dev-createSpecialDeal
+  GenerateUploadUrl: eStore-serverless-App-dev-GenerateUploadUrl
+layers:
+  None
+
+Stack Outputs
+AuthLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:802608100588:function:eStore-serverless-App-dev-Auth:9
+DeleteDealLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:802608100588:function:eStore-serverless-App-dev-DeleteDeal:9
+GenerateUploadUrlLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:802608100588:function:eStore-serverless-App-dev-GenerateUploadUrl:9
+GetAllDealsLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:802608100588:function:eStore-serverless-App-dev-GetAllDeals:9
+CreateSpecialDealLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:802608100588:function:eStore-serverless-App-dev-createSpecialDeal:9
+GetSpecialDealsLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:802608100588:function:eStore-serverless-App-dev-GetSpecialDeals:9
+UpdateDealLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:802608100588:function:eStore-serverless-App-dev-UpdateDeal:9
+GetDealLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:802608100588:function:eStore-serverless-App-dev-GetDeal:1
+ServerlessDeploymentBucketName: estore-serverless-app-de-serverlessdeploymentbuck-cirty3dh5cts
+CreateDealLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:802608100588:function:eStore-serverless-App-dev-CreateDeal:9
+AwsDocApiId: ficmpgzsvc
+GetRegularDealsLambdaFunctionQualifiedArn: arn:aws:lambda:us-east-1:802608100588:function:eStore-serverless-App-dev-GetRegularDeals:9
+EnterpriseLogAccessIamRole: arn:aws:iam::802608100588:role/eStore-serverless-App-dev-EnterpriseLogAccessIamRo-1QYS9EHRNY1VY
+ServiceEndpoint: https://ficmpgzsvc.execute-api.us-east-1.amazonaws.com/dev
+
+Serverless: Removing old service artifacts from S3...
+Serverless: Publishing service to the Serverless Dashboard...
+Serverless: Successfully published your service to the Serverless Dashboard: https://app.serverless.com/klamia/apps/daily-deals-app/eStore-serverless-App/dev/us-east-1

@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "deal",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9]+(\\s[a-zA-Z0-9]+)*$"
+    },
+    "description": {
+      "type": "string"
+    },
+    "originalPrice": {
+      "type": "string"
+    }
+    
+  
+  },
+  "required": [
+    "name",
+    "originalPrice"
+    
+  ],
+  "additionalProperties": false
+}

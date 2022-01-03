@@ -1,0 +1,66 @@
+<!-- Start Admin Product -->
+<section class="bg-light">
+  <div class="container py-5">
+
+    <div class="row">
+
+      <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
+        <div class="tm-bg-primary-dark tm-block tm-block-products">
+
+          <!-- forms start -->
+          <div class="card mb-grid">
+            <div class="card-header">
+              <div class="card-header-title">Edit product</div>
+            </div>
+            <div class="card-body">
+
+              <form [formGroup]="updateForm" (ngSubmit)="onUpdate()">
+                <div class="form-group">
+                  <label class="form-label">Name </label>
+                  <input type="text" class="form-control" 
+                  formControlName="name" >
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" >Description</label>
+                  <textarea class="form-control" formControlName="description" required></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Deal Type </label>
+                  <input type="text" class="form-control" 
+                  formControlName="dealType" >
+                </div>
+                
+                <div class="row">
+                  <div class="form-group col-6">
+                    <label class="form-label" >Regular price</label>
+                    <input type="text" class="form-control" formControlName="originalPrice" required >
+                  </div>
+                  <div class="form-group col-6">
+                    <label class="form-label" >Sale price</label>
+                    <input type="text" class="form-control" formControlName="salePrice" >
+                  </div>
+  
+                </div>
+
+
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="button" class="btn btn-primary  col-2" routerLink="/deals-list">Cancel</button>
+                </div>
+
+              </form>
+            </div>
+
+
+          </div>
+          <!-- forms ends -->
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- End Admin Product -->

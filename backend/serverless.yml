@@ -1,0 +1,368 @@
+# TODO: Change the name of the org 
+org: klamia
+app: daily-deals-app
+service: eStore-serverless-App
+
+plugins:
+  - serverless-webpack
+  - serverless-reqvalidator-plugin
+  - serverless-aws-documentation
+  - serverless-iam-roles-per-function
+  - serverless-plugin-tracing
+
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: '20201221'
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  tracing:
+    lambda: true
+    apiGateway: true
+
+  # Use these variables in the functions and resouorces section below. For example, 
+  # ${self:provider.environment.ATTACHMENT_S3_BUCKET}
+  environment:
+    DEALS_TABLE: Deals-${self:provider.stage}
+    DEALS_CREATED_AT_INDEX: CreatedAtIndex
+    DEALS_TYPE_INDEX: DealTypeIndex
+    DEALS_ID_INDEX: DealIdIndex 
+    IMAGE_S3_BUCKET: serverless-802608100588-deal-bucket-${self:provider.stage}
+    SIGNED_URL_EXPIRATION: 300
+    PROJECT_NAME: serverless-deal-app
+
+  logs:
+    # Enable API Gateway logs
+    restApi: true
+
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - xray:PutTelemetryRecords
+            - xray:PutTraceSegments
+          Resource: "*"        
+
+custom:  
+  documentation:
+    api:
+      info:
+        version: v1.0.0
+        title: Deals API
+        description: Serverless application for e-store deals 
+    models:
+      - name: DealRequestCreation
+        contentType: application/json
+        schema: ${file(models/create-deal-model.json)}
+      - name: DealRequestUpdate
+        contentType: application/json
+        schema: ${file(models/update-deal-model.json)}
+      - name: DealRequestSpecial
+        contentType: application/json
+        schema: ${file(models/special-deal-model.json)}  
+
+functions:
+  
+  Auth:
+    handler: src/lambda/auth/auth0Authorizer.handler
+  
+  GetAllDeals:
+    handler: src/lambda/http/getAllDeals.handler
+    events:
+      - http:
+          method: get
+          path: deals
+          cors: true
+          authorizer: Auth
+ 
+    iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-getdeals-${self:provider.stage}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DEALS_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DEALS_TABLE}/index/${self:provider.environment.DEALS_CREATED_AT_INDEX}
+  
+  GetRegularDeals:
+    handler: src/lambda/http/getRegularDeals.handler
+    events:
+      - http:
+          method: get
+          path: RegularDeals
+          cors: true         
+ 
+    iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-getregulardeals-${self:provider.stage}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DEALS_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DEALS_TABLE}/index/${self:provider.environment.DEALS_TYPE_INDEX}
+  
+  GetSpecialDeals:
+    handler: src/lambda/http/getSpecialDeals.handler
+    events:
+      - http:
+          method: get
+          path: SpecialDeals
+          cors: true
+          
+ 
+    iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-getspecialdeals-${self:provider.stage}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DEALS_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DEALS_TABLE}/index/${self:provider.environment.DEALS_TYPE_INDEX}
+  
+  CreateDeal:
+    handler: src/lambda/http/createDeal.handler
+    events:
+      - http:
+          method: post
+          path: deals
+          cors: true
+          authorizer: Auth
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: Create a new deal
+            description: Create a new deal
+            requestModels:
+              'application/json': DealRequestCreation
+    iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-createdeal-${self:provider.stage}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:PutItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DEALS_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DEALS_TABLE}/index/${self:provider.environment.DEALS_TYPE_INDEX}
+  
+  GetDeal:
+    handler: src/lambda/http/getDeal.handler
+    events:
+      - http:
+          method: get
+          path: deals/{dealId}
+          cors: true
+    iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-getdealbyid-${self:provider.stage}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DEALS_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DEALS_TABLE}/index/${self:provider.environment.DEALS_ID_INDEX}
+  
+  
+  UpdateDeal:
+    handler: src/lambda/http/updateDeal.handler
+    events:
+      - http:
+          method: patch
+          path: deals/{dealId}
+          cors: true
+          authorizer: Auth
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: Update a deal
+            description: update existing deal
+            requestModels:
+              'application/json': DealRequestUpdate
+    iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-updatedeal-${self:provider.stage}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DEALS_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DEALS_TABLE}/index/${self:provider.environment.DEALS_TYPE_INDEX}
+
+  DeleteDeal:
+    handler: src/lambda/http/deleteDeal.handler
+    events:
+      - http:
+          method: delete
+          path: deals/{dealId}
+          cors: true
+          authorizer: Auth
+    iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-deletedeal-${self:provider.stage}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:DeleteItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DEALS_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DEALS_TABLE}/index/${self:provider.environment.DEALS_TYPE_INDEX}
+  
+  createSpecialDeal:
+    handler: src/lambda/http/addSpecialDeal.handler
+    events:
+      - http:
+          method: patch
+          path: deals/{dealId}/special
+          cors: true
+          authorizer: Auth
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: update existing deal
+            description:  Update a deal from regular to special
+            requestModels:
+              'application/json': DealRequestSpecial
+    iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-createspecialdeal-${self:provider.stage}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DEALS_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DEALS_TABLE}/index/${self:provider.environment.DEALS_TYPE_INDEX}
+
+  GenerateUploadUrl:
+    handler: src/lambda/http/generateUploadUrl.handler
+    events:
+      - http:
+          method: post
+          path: deals/{dealId}/attachment
+          cors: true
+          authorizer: Auth
+    iamRoleStatementsName: ${self:provider.environment.PROJECT_NAME}-uploadUrl-${self:provider.stage}
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - s3:PutObject
+          - s3:GetObject
+        Resource: arn:aws:s3:::${self:provider.environment.IMAGE_S3_BUCKET}/*
+      - Effect: Allow
+        Action:
+          - dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DEALS_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DEALS_TABLE}/index/${self:provider.environment.DEALS_TYPE_INDEX}
+
+resources:
+  Resources:
+
+    GatewayResponseDefault4XX:
+      Type: AWS::ApiGateway::GatewayResponse
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+          gatewayresponse.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST,UPDATE,DELETE'"
+        ResponseType: DEFAULT_4XX
+        RestApiId:
+          Ref: ApiGatewayRestApi
+    
+    DealsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: dealId
+            AttributeType: S
+          - AttributeName: dealType
+            AttributeType: S  
+          - AttributeName: createdAt
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+          - AttributeName: dealId
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:provider.environment.DEALS_TABLE}
+        LocalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.DEALS_CREATED_AT_INDEX}
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+              - AttributeName: createdAt
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL 
+        GlobalSecondaryIndexes: 
+          - IndexName: ${self:provider.environment.DEALS_TYPE_INDEX}
+            KeySchema: 
+              - AttributeName: dealType
+                KeyType: HASH
+              - AttributeName: createdAt
+                KeyType: RANGE
+            Projection: 
+              ProjectionType: ALL
+  
+          - IndexName: ${self:provider.environment.DEALS_ID_INDEX}
+            KeySchema:
+            - AttributeName: dealId
+              KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+    
+
+    AttachmentsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.environment.IMAGE_S3_BUCKET}
+        CorsConfiguration:
+          CorsRules:
+            -
+              AllowedOrigins:
+                - '*'
+              AllowedHeaders:
+                - '*'
+              AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - DELETE
+                - HEAD
+              MaxAge: 3000
+
+    BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        PolicyDocument:
+          Id: MyPolicy
+          Version: "2012-10-17"
+          Statement:
+            - Sid: PublicReadForGetBucketObjects
+              Effect: Allow
+              Principal: '*'
+              Action: 's3:GetObject'
+              Resource: 'arn:aws:s3:::${self:provider.environment.IMAGE_S3_BUCKET}/*'
+        Bucket: !Ref AttachmentsBucket
+
+    RequestBodyValidator:
+      Type: AWS::ApiGateway::RequestValidator
+      Properties:
+        Name: 'request-body-validator'
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        ValidateRequestBody: true
+        ValidateRequestParameters: true
+        

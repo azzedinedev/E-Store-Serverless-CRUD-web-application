@@ -1,0 +1,45 @@
+
+    <!-- Start Admin Product -->
+    <section class="bg-light">
+        <div class="container py-5">
+
+            <div class="row">
+
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
+              <div class="tm-bg-primary-dark tm-block tm-block-products">
+
+                <!-- forms start -->
+                <div class="card mb-grid">
+                                  <div class="card-header">
+                                    <div class="card-header-title">Make the deal as special deal</div>
+                                  </div>
+                                  <div class="card-body">
+
+                                    <form [formGroup]="specialForm" (ngSubmit)="onSpecialDeal()">
+                        
+
+                                      <div class="row">
+
+                                        <div class="form-group col-12">
+                                          <label class="form-label" for="ProductSpecialPrice">Sale price</label>
+                                          <input type="text" class="form-control" formControlName="salePrice" id="ProductSpecialPrice" placeholder="Put the Special price here" required  >
+										  
+                                    <button type="submit" class="btn btn-primary  col-2">Submit</button>
+                                    <button type="button" class="btn btn-primary  col-2" routerLink="/deals-list" >Cancel</button>
+                                        </div>
+										
+                                      </div>
+
+
+                                    </form>
+                                  </div>
+                                </div>
+                <!-- forms ends -->
+
+              </div>
+            </div>
+
+          </div>
+      </div>
+  </section>
+    <!-- End Admin Product -->

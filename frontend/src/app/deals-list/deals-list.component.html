@@ -1,0 +1,81 @@
+<!-- Start Admin Product -->
+<section class="bg-light">
+  <div class="container py-5">
+    <div class="row text-center py-3">
+      <div class="col-lg-6 m-auto">
+        <h1 class="h1"> My deals</h1>
+      </div>
+    </div>
+    <div class="row">
+
+      <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
+        <div class="tm-bg-primary-dark tm-block tm-block-products">
+          <div class="tm-product-table-container">
+            <a  class="btn btn-sm btn-primary  text-uppercase mb-3" routerLinkActive="active" routerLink="/deals-add" >Add new deal</a>
+            <table class="table table-hover tm-table-small tm-product-table" >
+              <thead>
+                <tr>
+                  <th scope="col">Id</th>
+                  <th scope="col">PRODUCT NAME</th>
+                  <th scope="col">REGULAR PRICE</th>
+                  <th scope="col">SPECIAL PRICE</th>
+                  <th class="text-center" scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr *ngFor="let deal of Deals; let i = index" >
+                  <th scope="row">{{deal.dealId}}</th>
+                  <td class="tm-product-name">{{deal.name}}</td>
+                  <td>{{deal.originalPrice}}</td>
+                  <td>{{deal.salePrice}}</td>
+                  <td class="col-md-4" >
+                    
+
+                      <button class="btn btn-sm btn-danger" (click)="delete(deal.dealId, i)"><span>Delete</span>
+                          
+                      </button>
+                    
+                      <button class="btn btn-sm btn-info" routerLink="/deals-edit/{{deal.dealId}}"><span>Edit</span>
+                        
+                      </button>
+                      
+                      <button class="btn btn-sm btn-success" routerLink="/deals-upload/{{deal.dealId}}"><span>Image Upload</span>
+                        
+                      </button>
+                      
+                      <button class="btn btn-sm btn-warning" [disabled]="deal.dealType === 'Special Deal' " routerLink="/deals-add-special/{{deal.dealId}}" ><span>Special Deal</span>
+                        
+                      </button>
+
+                  </td>
+                </tr>
+
+
+              </tbody>
+            </table>
+          </div>
+          <!-- table pagination -->
+          <div class="card-footer d-flex justify-content-end">
+            <ul class="pagination pagination-clean pagination-sm mb-0">
+              <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">‹</a>
+              </li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
+              <li class="page-item"><a class="page-link" href="#">2</a></li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#">›</a>
+              </li>
+            </ul>
+          </div>
+
+          
+          
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- End Admin Product -->
