@@ -7,7 +7,7 @@
 - [About the project:](#about-the-project)
 - [Technologies used on the project:](#technologies-used-on-the-project)
 - [Functionalities:](#functionalities)
-- [Tech Stack:](#tech-stack)
+- [Technologies Stack:](#technologies-stack)
 - [Prerequisites:](#prerequisites)
 - [Getting Started:](#getting-started)
   - [Go to [backend]  by running:](#go-to-backend--by-running)
@@ -45,6 +45,8 @@
  - typescript
  - CSS
  - HTML5
+ - AWS
+ - Serverless
 
 ## Functionalities:
 - [x] Application can be able to CREATE, UPDATE, DELETE, VIEW and UPLOAD IMAGES for items (Deals).
@@ -52,7 +54,7 @@
 - [x] Application can be login/logout and show contents of the current user. 
 - [x] User needs to be authenticated to could perform CRUD operations to Deal items that he/she has created
 
-## Tech Stack: 
+## Technologies Stack: 
 - [Serverless Framework](https://www.serverless.com/) as Deployment Framework 
 - [Angular](https://angular.io/) for the Frontend 
 - [AWS](https://aws.amazon.com/) as cloud provider for following services : DynamoDB, Cloudwatch, Lambda, API Gateway, Cloudformation, S3, X-Ray, AWS SDK
