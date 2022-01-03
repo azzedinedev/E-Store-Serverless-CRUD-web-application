@@ -47,6 +47,7 @@
  - HTML5
  - AWS
  - Serverless
+ - Swagger
 
 ## Functionalities:
 - [x] Application can be able to CREATE, UPDATE, DELETE, VIEW and UPLOAD IMAGES for items (Deals).
